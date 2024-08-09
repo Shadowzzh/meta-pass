@@ -11,8 +11,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@contract/*": ["../src/contract/*"],
+      "@/*": [
+        "./src/*"
+      ],
+      "@contract/*": [
+        "../src/contract/*"
+      ],
     }
   }
 }
