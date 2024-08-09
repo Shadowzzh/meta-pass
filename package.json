@@ -4,5 +4,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {}
+  "scripts": {
+    "dev": "(cd packages/frontend && pnpm dev)",
+    "hardhat-compile": "(cd packages/contract && npx hardhat compile)",
+    "hardhat-node": "(cd packages/contract && npx hardhat node)",
+    "hardhat-deploy": "(cd packages/contract && npx hardhat ignition deploy ./ignition/modules/TicketSystem.ts --network localhost)"
+  }
 }

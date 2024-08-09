@@ -1,94 +1,45 @@
-import { ConnectKitButton } from 'connectkit';
-import { useAccount, useReadContract } from 'wagmi';
-
 import { AuroraBackground } from '@/components/ui/AuroraBackground';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
-const CONTRACT_ADDRESS = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
-const CONTRACT_ABI = [
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '_unlockTime',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'payable',
-    type: 'constructor',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'when',
-        type: 'uint256',
-      },
-    ],
-    name: 'Withdrawal',
-    type: 'event',
-  },
-  {
-    inputs: [],
-    name: 'owner',
-    outputs: [
-      {
-        internalType: 'address payable',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'unlockTime',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'withdraw',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-] as const;
-
 function App() {
-  const { address } = useAccount();
-  console.log('🚀 ~ App ~ address:', address);
-
-  const result = useReadContract({
-    address: CONTRACT_ADDRESS,
-    abi: CONTRACT_ABI,
-    functionName: 'owner',
-  });
-
-  console.log('🚀 ~ App ~ ticketCount:', result.data);
-
   return (
-    <div className={cn('h-screen w-screen')}>
-      <div className=" absolute top-5 right-5 z-50">
-        <ConnectKitButton />
-      </div>
-      <AuroraBackground>1</AuroraBackground>
+    <div
+      className={cn(
+        'h-screen w-screen',
+        'relative flex flex-col items-center justify-center antialiased',
+      )}
+    >
+      <AuroraBackground className="h-screen w-screen">
+        <h1
+          className={cn(
+            'relative z-10 ',
+            'text-4xl md:text-7xl bg-clip-text text-transparent text-center font-bold',
+            'bg-gradient-to-b from-neutral-200 to-neutral-600 ',
+          )}
+        >
+          Welcome to MetaPass
+        </h1>
+        <p
+          className={cn(
+            'text-sm md:text-base text-center',
+            'text-neutral-400 max-w-xl mx-auto my-4  relative z-10',
+          )}
+        >
+          Step into the future of event ticketing with MetaPass. Our blockchain-powered
+          platform offers unparalleled security and efficiency for event organizers and
+          attendees. From concerts to conferences, experience seamless, fraud-free
+          ticketing that&apos;s changing the game.
+        </p>
+        <div
+          className={cn(
+            'flex justify-center space-x-4 mt-4 relative z-10',
+            'text-foreground',
+          )}
+        >
+          <Button variant="secondary">Enter</Button>
+        </div>
+      </AuroraBackground>
     </div>
   );
 }

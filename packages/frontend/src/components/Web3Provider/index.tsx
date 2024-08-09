@@ -7,7 +7,11 @@ import { hardhat, mainnet, sepolia } from 'wagmi/chains';
 const config = createConfig(
   getDefaultConfig({
     chains: [hardhat],
-    transports: { [mainnet.id]: http(), [sepolia.id]: http(), [hardhat.id]: http() },
+    transports: {
+      [hardhat.id]: http('http://127.0.0.1:8545'),
+      [mainnet.id]: http(),
+      [sepolia.id]: http(),
+    },
     walletConnectProjectId: 'a8d524a4a2fceccb4bbf13387a99c60c',
     appName: 'MetaPass',
     appDescription: 'Your App Description',
