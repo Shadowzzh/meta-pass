@@ -1,8 +1,10 @@
+import { NavLink } from 'react-router-dom';
+
 import { AuroraBackground } from '@/components/ui/AuroraBackground';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
-function App() {
+const Home = () => {
   return (
     <div
       className={cn(
@@ -37,11 +39,13 @@ function App() {
             'text-foreground',
           )}
         >
-          <Button variant="secondary">Enter</Button>
+          <Button variant="secondary">
+            <NavLink to="/event">Enter</NavLink>
+          </Button>
         </div>
       </AuroraBackground>
     </div>
   );
-}
+};
 
-export default App;
+export default Home;
