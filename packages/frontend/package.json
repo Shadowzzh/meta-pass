@@ -26,6 +26,7 @@
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "viem": "~2.18.7",
+    "vite-plugin-svgr": "^4.2.0",
     "wagmi": "^2.12.2"
   },
   "devDependencies": {
