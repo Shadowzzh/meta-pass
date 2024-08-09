@@ -15,6 +15,16 @@ export default {
       },
     },
     extend: {
+      width: {
+        xl: '24rem',
+        '2xl': '32rem',
+        '3xl': '40rem',
+        '4xl': '48rem',
+        '5xl': '56rem',
+        '6xl': '64rem',
+        '7xl': '72rem',
+        '8xl': '80rem',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

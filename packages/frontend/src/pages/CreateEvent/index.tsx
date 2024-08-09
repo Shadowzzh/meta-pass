@@ -1,13 +1,13 @@
 import { cn } from '@/utils';
 
-const Dashboard = () => {
+const CreateEvent = () => {
   return (
     <div className={cn('w-full', 'h-min-full')}>
       <div className={cn('w-7xl h-screen', 'm-auto')}>
-        <div>Dashboard</div>
+        <div>CreateEvent</div>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default CreateEvent;

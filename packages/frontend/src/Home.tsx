@@ -40,7 +40,7 @@ const Home = () => {
           )}
         >
           <Button variant="secondary">
-            <NavLink to="/event">Enter</NavLink>
+            <NavLink to="/dashboard">Enter</NavLink>
           </Button>
         </div>
       </AuroraBackground>

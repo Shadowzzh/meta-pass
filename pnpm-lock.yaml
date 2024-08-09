@@ -76,6 +76,8 @@ importers:
       prettier-plugin-tailwindcss: ^0.6.5
       react: ^18.3.1
       react-dom: ^18.3.1
+      react-router: ^6.26.0
+      react-router-dom: ^6.26.0
       simplex-noise: ^4.0.3
       tailwind-merge: ^2.4.0
       tailwindcss: ^3.4.7
@@ -94,6 +96,8 @@ importers:
       framer-motion: 11.3.23_nnrd3gsncyragczmpvfhocinkq
       react: 18.3.1
       react-dom: 18.3.1_react@18.3.1
+      react-router: 6.26.0_react@18.3.1
+      react-router-dom: 6.26.0_nnrd3gsncyragczmpvfhocinkq
       simplex-noise: 4.0.3
       tailwind-merge: 2.4.0
       tailwindcss-animate: 1.0.7_tailwindcss@3.4.8
@@ -1986,6 +1990,11 @@ packages:
       '@radix-ui/react-compose-refs': 1.1.0_3vdbhqr2ncalcx7opnshezpx3q
       '@types/react': 18.3.3
       react: 18.3.1
+    dev: false
+
+  /@remix-run/router/1.19.0:
+    resolution: {integrity: sha512-zDICCLKEwbVYTS6TjYaWtHXxkdoUvD/QXvyVZjGCsWz5vyH7aFeONlPffPdW+Y/t6KT0MgXb2Mfjun9YpWN1dA==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /@rollup/rollup-android-arm-eabi/4.20.0:
@@ -7443,6 +7452,29 @@ packages:
     dependencies:
       escape-string-regexp: 2.0.0
       invariant: 2.2.4
+      react: 18.3.1
+    dev: false
+
+  /react-router-dom/6.26.0_nnrd3gsncyragczmpvfhocinkq:
+    resolution: {integrity: sha512-RRGUIiDtLrkX3uYcFiCIxKFWMcWQGMojpYZfcstc63A1+sSnVgILGIm9gNUA6na3Fm1QuPGSBQH2EMbAZOnMsQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.19.0
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
+      react-router: 6.26.0_react@18.3.1
+    dev: false
+
+  /react-router/6.26.0_react@18.3.1:
+    resolution: {integrity: sha512-wVQq0/iFYd3iZ9H2l3N3k4PL8EEHcb0XlU2Na8nEwmiXgIUElEH6gaJDtUQxJ+JFzmIXaQjfdpcGWaM6IoQGxg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.19.0
       react: 18.3.1
     dev: false
 
