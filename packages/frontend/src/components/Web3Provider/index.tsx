@@ -26,13 +26,7 @@ export const Web3Provider = ({ children }: ComponentProps<'div'>) => {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider
-          options={{
-            language: 'zh-CN',
-          }}
-        >
-          {children}
-        </ConnectKitProvider>
+        <ConnectKitProvider>{children}</ConnectKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
