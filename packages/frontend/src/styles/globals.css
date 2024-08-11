@@ -6,7 +6,7 @@
   * {
     @apply border-border;
   }
-  #root {
+  html {
     @apply bg-background text-foreground;
   }
   :root {
