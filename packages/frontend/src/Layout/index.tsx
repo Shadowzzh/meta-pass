@@ -3,6 +3,7 @@ import type { LinkProps } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import { cn } from '@/utils';
+import Logo from '/logo.svg?react';
 
 const Layout = () => {
   const LinkWrap = (props: LinkProps) => {
@@ -25,12 +26,14 @@ const Layout = () => {
       <header className={cn('h-16 w-full', 'sticky top-0', 'bg-background')}>
         <div className={cn('flex items-center justify-between', 'h-full', 'mx-6')}>
           {/* logo */}
-          <div>logo</div>
+          <div>
+            <Logo className={cn('size-6')} />
+          </div>
 
           {/* header main */}
           <div
             className={cn(
-              'w-[calc(72rem+(100%-72rem)/2)]',
+              'w-[calc(64rem+(100%-64rem)/2)]',
               'flex items-center justify-between',
             )}
           >
