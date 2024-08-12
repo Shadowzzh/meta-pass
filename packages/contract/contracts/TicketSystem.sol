@@ -26,6 +26,9 @@ contract TicketSystem is ReentrancyGuard {
         bool isUsed; // 门票是否已使用
     }
 
+    // 新增：存储所有事件ID的数组
+    uint256[] public allEventIds;
+
     // 存储所有活动  eventId => event
     mapping(uint256 => Event) public events;
     // 存储活动创建者 eventId => address
@@ -39,8 +42,17 @@ contract TicketSystem is ReentrancyGuard {
     uint256 public nextTicketId = 1; // 下一个门票ID
 
     // 事件声明
-    event EventCreated(uint256 indexed eventId, string name, uint256 date, address creator);
-    event TicketPurchased(uint256 indexed eventId, uint256 indexed ticketId, address buyer);
+    event EventCreated(
+        uint256 indexed eventId,
+        string name,
+        uint256 date,
+        address creator
+    );
+    event TicketPurchased(
+        uint256 indexed eventId,
+        uint256 indexed ticketId,
+        address buyer
+    );
     event TicketUsed(uint256 indexed eventId, uint256 indexed ticketId, address user);
 
     /// @notice 创建新活动
@@ -60,8 +72,17 @@ contract TicketSystem is ReentrancyGuard {
         require(_totalTickets > 0, 'Total tickets must be greater than zero');
 
         uint256 eventId = nextEventId++;
-        events[eventId] = Event(_name, _date, _location, _totalTickets, 0, _ticketPrice, true);
+        events[eventId] = Event(
+            _name,
+            _date,
+            _location,
+            _totalTickets,
+            0,
+            _ticketPrice,
+            true
+        );
         eventCreators[eventId] = msg.sender;
+        allEventIds.push(eventId); // 新增：将新事件ID添加到数组
 
         emit EventCreated(eventId, _name, _date, msg.sender);
     }
@@ -84,6 +105,43 @@ contract TicketSystem is ReentrancyGuard {
         emit TicketPurchased(_eventId, ticketId, msg.sender);
     }
 
+    /// @notice 标记门票为已使用
+    /// @param _eventId 活动ID
+    /// @param _ticketId 门票ID
+    /// @param _signature 证明门票所有权的签名
+    function useTicket(
+        uint256 _eventId,
+        uint256 _ticketId,
+        bytes memory _signature
+    ) public {
+        require(
+            msg.sender == eventCreators[_eventId],
+            'Only event creator can mark tickets as used'
+        );
+        require(
+            verifyTicket(_eventId, _ticketId, _signature),
+            'Invalid ticket or signature'
+        );
+        tickets[_eventId][_ticketId].isUsed = true;
+        emit TicketUsed(_eventId, _ticketId, tickets[_eventId][_ticketId].owner);
+    }
+
+    /// @notice 获取所有活动
+    /// @return 返回所有活动的数组
+    function getAllEvents() public view returns (Event[] memory) {
+        Event[] memory allEvents = new Event[](allEventIds.length);
+        for (uint256 i = 0; i < allEventIds.length; i++) {
+            allEvents[i] = events[allEventIds[i]];
+        }
+        return allEvents;
+    }
+
+    /// @notice 获取活动总数
+    /// @return 返回活动的总数
+    function getEventCount() public view returns (uint256) {
+        return allEventIds.length;
+    }
+
     /// @notice 验证门票的所有权和有效性
     /// @param _eventId 活动ID
     /// @param _ticketId 门票ID
@@ -102,25 +160,13 @@ contract TicketSystem is ReentrancyGuard {
         bytes32 messageHash = getMessageHash(_eventId, _ticketId, ticket.owner);
 
         // 转换为以太坊签名消息
-        bytes32 ethSignedMessageHash = MessageHashUtils.toEthSignedMessageHash(messageHash);
+        bytes32 ethSignedMessageHash = MessageHashUtils.toEthSignedMessageHash(
+            messageHash
+        );
         // 恢复签名者地址
         address signer = ECDSA.recover(ethSignedMessageHash, _signature);
 
         return signer == ticket.owner;
-    }
-
-    /// @notice 标记门票为已使用
-    /// @param _eventId 活动ID
-    /// @param _ticketId 门票ID
-    /// @param _signature 证明门票所有权的签名
-    function useTicket(uint256 _eventId, uint256 _ticketId, bytes memory _signature) public {
-        require(
-            msg.sender == eventCreators[_eventId],
-            'Only event creator can mark tickets as used'
-        );
-        require(verifyTicket(_eventId, _ticketId, _signature), 'Invalid ticket or signature');
-        tickets[_eventId][_ticketId].isUsed = true;
-        emit TicketUsed(_eventId, _ticketId, tickets[_eventId][_ticketId].owner);
     }
 
     /// @notice 生成用于签名的消息哈希
