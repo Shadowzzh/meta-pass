@@ -48,13 +48,14 @@ export const FormSchema = z.object({
   }),
 });
 
-// const DevDefaultValues = {
-//   eventName: 'web3 开发者大会',
-//   startDate: new Date('2025-05-01'),
-//   location: '上海',
-//   capacity: 100,
-//   tickets: 0,
-// };
+/** 开发环境默认值 */
+const DevDefaultValues = {
+  eventName: 'web3 开发者大会',
+  startDate: new Date('2025-05-01'),
+  location: '上海',
+  capacity: 100,
+  tickets: 0,
+};
 
 const defaultValues = {
   eventName: '',
@@ -69,7 +70,9 @@ const defaultValues = {
 const EventForm = (props: EventFormProps) => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
-    defaultValues,
+    // 开发环境使用默认值
+    defaultValues:
+      import.meta.env.MODE === 'development' ? DevDefaultValues : defaultValues,
   });
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
