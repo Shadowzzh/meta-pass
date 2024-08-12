@@ -20,6 +20,13 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/utils';
 
+interface EventFormProps {
+  className?: string;
+  onSubmit: (values: z.infer<typeof FormSchema>) => void;
+  Button: React.ReactNode;
+}
+
+/** 表单验证 */
 export const FormSchema = z.object({
   /** 事件名称 */
   eventName: z.string().min(1, {
@@ -27,8 +34,6 @@ export const FormSchema = z.object({
   }),
   /** 开始日期 */
   startDate: z.date(),
-  /** 结束日期 */
-  // endDate: z.date(),
   /** 地点 */
   location: z.string().min(1, {
     message: 'Location must be at least 1 character.',
@@ -43,24 +48,28 @@ export const FormSchema = z.object({
   }),
 });
 
-interface EventFormProps {
-  className?: string;
-  onSubmit: (values: z.infer<typeof FormSchema>) => void;
-  Button: React.ReactNode;
-}
+// const DevDefaultValues = {
+//   eventName: 'web3 开发者大会',
+//   startDate: new Date('2025-05-01'),
+//   location: '上海',
+//   capacity: 100,
+//   tickets: 0,
+// };
+
+const defaultValues = {
+  eventName: '',
+  startDate: new Date(),
+  endDate: new Date(),
+  location: '',
+  capacity: 1,
+  tickets: 0,
+};
 
 /** 创建事件表单 */
 const EventForm = (props: EventFormProps) => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      eventName: '',
-      startDate: new Date(),
-      endDate: new Date(),
-      location: '',
-      capacity: 1,
-      tickets: 0,
-    },
+    defaultValues,
   });
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
@@ -92,11 +101,12 @@ const EventForm = (props: EventFormProps) => {
           />
           <FormMessage>{form.formState.errors.eventName?.message}</FormMessage>
         </FormItem>
-        {/* 开始日期 */}
-        <FormItem>
-          <FormLabel>Event Date</FormLabel>
 
-          <div className={cn('flex items-center')}>
+        <div className={cn('flex items-start mt-4 space-x-4')}>
+          {/* 开始日期 */}
+          <FormItem className={cn('flex flex-col flex-1')}>
+            <FormLabel>Event Date</FormLabel>
+
             <FormField
               control={form.control}
               name="startDate"
@@ -107,7 +117,7 @@ const EventForm = (props: EventFormProps) => {
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-80 justify-start text-left font-normal',
+                          'justify-start text-left font-normal',
                           !field.value && 'text-muted-foreground',
                         )}
                       >
@@ -135,80 +145,31 @@ const EventForm = (props: EventFormProps) => {
                 );
               }}
             />
-            {/* 结束日期 */}
-            <div
-              className={cn(
-                'text-sm text-muted-foreground',
-                ' inline-block',
-                'mx-2 mb-3',
-              )}
-            >
-              To
-            </div>
+            <FormMessage>{form.formState.errors.startDate?.message}</FormMessage>
+          </FormItem>
+
+          {/* 地点 */}
+          <FormItem className={cn('flex flex-col flex-1')}>
+            <FormLabel>Location</FormLabel>
             <FormField
               control={form.control}
-              name="endDate"
+              name="location"
               render={({ field }) => {
                 return (
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={'outline'}
-                        className={cn(
-                          'w-80 justify-start text-left font-normal',
-                          !field.value && 'text-muted-foreground',
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {field.value ? (
-                          format(field.value, 'PPP')
-                        ) : (
-                          <span>Pick a end date</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <FormControl>
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          disabled={(date) => date < new Date()}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </FormControl>
-                    </PopoverContent>
-                  </Popover>
+                  <FormControl>
+                    <Input placeholder="Event Location" {...field} />
+                  </FormControl>
                 );
               }}
             />
-          </div>
-          <FormMessage>{form.formState.errors.startDate?.message}</FormMessage>
-          <FormMessage>{form.formState.errors.endDate?.message}</FormMessage>
-        </FormItem>
+            <FormMessage>{form.formState.errors.location?.message}</FormMessage>
+          </FormItem>
+        </div>
 
-        {/* 地点 */}
-        <FormItem className="mt-4">
-          <FormLabel>Location</FormLabel>
-          <FormField
-            control={form.control}
-            name="location"
-            render={({ field }) => {
-              return (
-                <FormControl>
-                  <Input placeholder="Event Location" {...field} />
-                </FormControl>
-              );
-            }}
-          />
-          <FormMessage>{form.formState.errors.location?.message}</FormMessage>
-        </FormItem>
-
-        {/* 票价 */}
-        <FormItem className="mt-4">
-          <FormLabel> Ticket</FormLabel>
-          <FormItem>
+        <div className={cn('flex items-start mt-4 space-x-4')}>
+          {/* 票价 */}
+          <FormItem className={cn('flex flex-col flex-1')}>
+            <FormLabel> Ticket</FormLabel>
             <FormField
               control={form.control}
               name="tickets"
@@ -227,35 +188,35 @@ const EventForm = (props: EventFormProps) => {
                 );
               }}
             />
+            <FormDescription>If it is 0, the ticket is free</FormDescription>
+            <FormMessage>{form.formState.errors.tickets?.message}</FormMessage>
           </FormItem>
-          <FormDescription>If it is 0, the ticket is free</FormDescription>
-          <FormMessage>{form.formState.errors.tickets?.message}</FormMessage>
-        </FormItem>
 
-        {/* 总票数 */}
-        <FormItem className="mt-4">
-          <FormLabel>Capacity</FormLabel>
-          <FormField
-            control={form.control}
-            name="capacity"
-            render={({ field }) => {
-              return (
-                <FormControl>
-                  <Input
-                    type="number"
-                    min={1}
-                    placeholder="Total Tickets"
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(Number(e.target.value));
-                    }}
-                  />
-                </FormControl>
-              );
-            }}
-          />
-          <FormMessage>{form.formState.errors.capacity?.message}</FormMessage>
-        </FormItem>
+          {/* 总票数 */}
+          <FormItem className={cn('flex flex-col flex-1')}>
+            <FormLabel>Capacity</FormLabel>
+            <FormField
+              control={form.control}
+              name="capacity"
+              render={({ field }) => {
+                return (
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={1}
+                      placeholder="Total Tickets"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(Number(e.target.value));
+                      }}
+                    />
+                  </FormControl>
+                );
+              }}
+            />
+            <FormMessage>{form.formState.errors.capacity?.message}</FormMessage>
+          </FormItem>
+        </div>
 
         {props.Button}
       </form>

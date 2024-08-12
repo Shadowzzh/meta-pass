@@ -100,7 +100,7 @@ const CreateEvent = () => {
           <EventForm
             onSubmit={onSubmit}
             Button={
-              <Button className={cn('mt-4')} type="submit">
+              <Button className={cn('mt-8')} type="submit">
                 {(isPending || isConfirming) && (
                   <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                 )}
