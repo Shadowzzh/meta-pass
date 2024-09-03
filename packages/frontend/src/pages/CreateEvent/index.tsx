@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ReloadIcon } from '@radix-ui/react-icons';
+import { useNavigate } from 'react-router';
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 import type { z } from 'zod';
 
+import { PickerImage } from './components/PickerImage';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { ABI, CONTRACT_ADDRESS } from '@/config';
@@ -15,12 +17,20 @@ import { cn } from '@/utils';
  */
 const CreateEvent = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  /** 图片 */
+  const [image, setImage] = useState<string>('/public/images/default-cover.webp');
 
   const { writeContract, data: hash, error, isPending } = useWriteContract();
 
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
   });
+
+  const onImageChange = (image: string) => {
+    setImage(image);
+  };
 
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
     toast({
@@ -35,8 +45,10 @@ const CreateEvent = () => {
         functionName: 'createEvent',
         args: [
           formData.eventName,
-          formData.startDate.valueOf(),
           formData.location,
+          formData.description,
+          image,
+          formData.startDate.valueOf(),
           formData.capacity,
           formData.tickets,
         ],
@@ -73,30 +85,19 @@ const CreateEvent = () => {
         title: 'Success',
         description: 'Event created successfully!',
       });
+      navigate('/dashboard');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, isConfirming, isSuccess, toast]);
 
   return (
     <div className={cn('w-full', 'min-h-[calc(100vh-4rem)]')}>
       <div className={cn('w-6xl', 'm-auto', 'flex justify-between', 'pt-6')}>
-        <div
-          className={cn(
-            'size-80',
-            'rounded-2xl',
-            'overflow-hidden',
-            'border-2 border-gray300',
-            ' shrink-0 ',
-            'mr-8',
-          )}
-        >
-          <img
-            className={cn('w-full h-full', 'object-cover')}
-            src="/public/image/bg-1.jpg"
-            alt="bg"
-          />
-        </div>
+        {/* 图片选择器 */}
+        <PickerImage onChange={onImageChange} imageSrc={image} />
 
         <div className={cn('w-full pt-2')}>
+          {/* 表单 */}
           <EventForm
             onSubmit={onSubmit}
             Button={

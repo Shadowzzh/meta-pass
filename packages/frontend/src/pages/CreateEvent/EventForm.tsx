@@ -32,12 +32,16 @@ export const FormSchema = z.object({
   eventName: z.string().min(1, {
     message: 'Event name must be at least 1 character.',
   }),
-  /** 开始日期 */
-  startDate: z.date(),
+  /** 活动描述 */
+  description: z.string({
+    message: 'Description must be at least 1 character.',
+  }),
   /** 地点 */
   location: z.string().min(1, {
     message: 'Location must be at least 1 character.',
   }),
+  /** 开始日期 */
+  startDate: z.date(),
   /** 票价 */
   tickets: z.number().min(0, {
     message: 'Ticket price must be at least 0.',
@@ -51,7 +55,10 @@ export const FormSchema = z.object({
 /** 开发环境默认值 */
 const DevDefaultValues = {
   eventName: 'web3 开发者大会',
+  description:
+    'web3 开发者大会是一个汇聚全球顶尖区块链和去中心化技术专家的盛会。在这里，您将有机会聆听前沿技术分享，参与深度技术讨论，结识行业精英，共同探讨 web3 的未来发展方向。无论您是经验丰富的开发者还是刚入门的新手，都能在这里找到属于自己的收获。',
   startDate: new Date('2025-05-01'),
+  imageSrc: 'bg-2',
   location: '上海',
   capacity: 100,
   tickets: 0,
@@ -59,8 +66,8 @@ const DevDefaultValues = {
 
 const defaultValues = {
   eventName: '',
+  description: '',
   startDate: new Date(),
-  endDate: new Date(),
   location: '',
   capacity: 1,
   tickets: 0,
@@ -94,7 +101,7 @@ const EventForm = (props: EventFormProps) => {
                   className={cn(
                     'resize-none',
                     'text-2xl',
-                    '!border-none !ring-0 p-0',
+                    '!border-none !ring-0 !shadow-none p-0',
                     '!min-h-0',
                   )}
                   {...field}
@@ -103,6 +110,25 @@ const EventForm = (props: EventFormProps) => {
             )}
           />
           <FormMessage>{form.formState.errors.eventName?.message}</FormMessage>
+        </FormItem>
+
+        {/* 活动描述 */}
+        <FormItem>
+          <FormLabel>Event Description</FormLabel>
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormControl>
+                <Textarea
+                  placeholder="Event Description"
+                  className={cn(' resize-none', ' min-h-24 max-h-56')}
+                  {...field}
+                />
+              </FormControl>
+            )}
+          />
+          <FormMessage>{form.formState.errors.description?.message}</FormMessage>
         </FormItem>
 
         <div className={cn('flex items-start mt-4 space-x-4')}>
