@@ -12,8 +12,10 @@ contract TicketSystem is ReentrancyGuard {
 
     struct Event {
         string name; // 活动名称
-        uint256 date; // 活动日期（UNIX时间戳）
         string location; // 活动地点
+        string description; // 活动描述
+        string imageSrc; // 活动图片
+        uint256 date; // 活动日期（UNIX时间戳）
         uint256 totalTickets; // 总票数
         uint256 ticketsSold; // 已售出的票数
         uint256 ticketPrice; // 每张票的价格（以wei为单位）
@@ -63,8 +65,10 @@ contract TicketSystem is ReentrancyGuard {
     /// @param _ticketPrice 每张票的价格（以wei为单位）
     function createEvent(
         string memory _name,
-        uint256 _date,
         string memory _location,
+        string memory _description,
+        string memory _imageSrc,
+        uint256 _date,
         uint256 _totalTickets,
         uint256 _ticketPrice
     ) public {
@@ -74,8 +78,10 @@ contract TicketSystem is ReentrancyGuard {
         uint256 eventId = nextEventId++;
         events[eventId] = Event(
             _name,
-            _date,
             _location,
+            _description,
+            _imageSrc,
+            _date,
             _totalTickets,
             0,
             _ticketPrice,
