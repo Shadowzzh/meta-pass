@@ -1,10 +1,28 @@
-import { NavLink } from 'react-router-dom';
+import { useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { AuroraBackground } from '@/components/ui/AuroraBackground';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        navigate('/dashboard');
+        location.href;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div
       className={cn(
@@ -39,7 +57,7 @@ const Home = () => {
             'text-foreground',
           )}
         >
-          <Button variant="secondary">
+          <Button variant="secondary" asChild>
             <NavLink to="/dashboard">Enter</NavLink>
           </Button>
         </div>
