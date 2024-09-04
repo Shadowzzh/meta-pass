@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
 import { Outlet } from 'react-router';
 import type { LinkProps } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -5,13 +7,26 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/utils';
 import Logo from '/logo.svg?react';
 
+const Timer = (params: { children: (params: { time: Date }) => React.ReactNode }) => {
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return params.children({ time });
+};
+
 const Layout = () => {
   const LinkWrap = (props: LinkProps) => {
     const { to, children } = props;
     return (
       <Link
         className={cn(
-          'text-muted-foreground hover:text-foreground',
+          'text-muted-foreground hover:text-foreground text-sm',
           'transition-all duration-500',
         )}
         to={to}
@@ -41,8 +56,14 @@ const Layout = () => {
               <LinkWrap to="/dashboard">Dashboard</LinkWrap>
             </div>
 
-            <div className={cn('flex', 'space-x-4')}>
-              <div>{new Date().toLocaleDateString()}</div>
+            <div className={cn('flex items-center', 'space-x-4')}>
+              <Timer>
+                {({ time }) => (
+                  <div className="text-sm text-muted-foreground/50 w-44">
+                    {format(time, 'yyyy-MM-dd HH:mm')}
+                  </div>
+                )}
+              </Timer>
 
               <LinkWrap
                 className={cn(
