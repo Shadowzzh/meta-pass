@@ -59,7 +59,7 @@ const Layout = () => {
             <div className={cn('flex items-center', 'space-x-4')}>
               <Timer>
                 {({ time }) => (
-                  <div className="text-sm text-muted-foreground/50 w-44">
+                  <div className="text-sm text-muted-foreground/50 w-40">
                     {format(time, 'yyyy-MM-dd HH:mm')}
                   </div>
                 )}
