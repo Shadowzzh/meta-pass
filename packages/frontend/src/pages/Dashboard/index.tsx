@@ -12,7 +12,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Timeline, TimelineEntry } from '@/components/ui/time-line';
 import { ABI, CONTRACT_ADDRESS } from '@/config';
 import { EventInfo } from '@/types/eventInfo';
 import { cn } from '@/utils';
@@ -65,14 +64,13 @@ const Discover = (params: { events?: EventInfo[] }) => {
     );
   };
 
-  const data: TimelineEntry[] = events.map((event) => {
-    return {
-      title: formatDate(new Date(Number(event.date)), 'yyyy-MM-dd'),
-      content: <DiscoverItem event={event} />,
-    };
-  });
-
-  return <Timeline data={data} />;
+  return (
+    <div className={cn('space-y-6')}>
+      {events.map((event) => {
+        return <DiscoverItem event={event} />;
+      })}
+    </div>
+  );
 };
 
 /** 控制面板 */
