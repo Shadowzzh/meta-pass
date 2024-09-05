@@ -65,6 +65,7 @@ importers:
       '@radix-ui/react-tabs': ^1.1.0
       '@radix-ui/react-toast': ^1.2.1
       '@react-icons/all-files': ^4.1.0
+      '@tabler/icons-react': ^3.14.0
       '@tanstack/react-query': ^5.51.18
       '@types/react': ^18.3.3
       '@types/react-dom': ^18.3.0
@@ -82,6 +83,7 @@ importers:
       eslint-plugin-react-refresh: ^0.4.7
       framer-motion: ^11.3.20
       lucide-react: ^0.427.0
+      mini-svg-data-uri: ^1.4.4
       next-themes: ^0.3.0
       postcss: ^8.4.40
       prettier-plugin-tailwindcss: ^0.6.5
@@ -113,6 +115,7 @@ importers:
       '@radix-ui/react-tabs': 1.1.0_ma437sazqanxqsgjws34kond6i
       '@radix-ui/react-toast': 1.2.1_ma437sazqanxqsgjws34kond6i
       '@react-icons/all-files': 4.1.0_react@18.3.1
+      '@tabler/icons-react': 3.14.0_react@18.3.1
       '@tanstack/react-query': 5.51.21_react@18.3.1
       class-variance-authority: 0.7.0
       clsx: 2.1.1
@@ -120,6 +123,7 @@ importers:
       date-fns: 3.6.0
       framer-motion: 11.3.23_nnrd3gsncyragczmpvfhocinkq
       lucide-react: 0.427.0_react@18.3.1
+      mini-svg-data-uri: 1.4.4
       next-themes: 0.3.0_nnrd3gsncyragczmpvfhocinkq
       react: 18.3.1
       react-day-picker: 8.10.1_hfty7ymruxwkehkosfmyiuvqkm
@@ -3215,6 +3219,19 @@ packages:
     dependencies:
       '@swc/counter': 0.1.3
     dev: true
+
+  /@tabler/icons-react/3.14.0_react@18.3.1:
+    resolution: {integrity: sha512-3XdbuyhBNq8aZW0qagR9YL8diACZYSAtaw6VuwcO2l6HzVFPN6N5TDex9WTz/3lf+uktAvOv1kNuuFBjSjN9yw==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      '@tabler/icons': 3.14.0
+      react: 18.3.1
+    dev: false
+
+  /@tabler/icons/3.14.0:
+    resolution: {integrity: sha512-OakKjK1kuDWKoNwdnHHVMt11kTZAC10iZpN/8o/CSYdeBH7S3v5n8IyqAYynFxLI8yBGTyBvljtvWdmWh57zSg==}
+    dev: false
 
   /@tanstack/query-core/5.51.21:
     resolution: {integrity: sha512-POQxm42IUp6n89kKWF4IZi18v3fxQWFRolvBA6phNVmA8psdfB1MvDnGacCJdS+EOX12w/CyHM62z//rHmYmvw==}
@@ -7320,6 +7337,11 @@ packages:
   /mimic-fn/4.0.0:
     resolution: {integrity: sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==}
     engines: {node: '>=12'}
+    dev: false
+
+  /mini-svg-data-uri/1.4.4:
+    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
     dev: false
 
   /minimalistic-assert/1.0.1:

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ConnectKitButton } from 'connectkit';
 import { format } from 'date-fns';
-import { Outlet, useLocation } from 'react-router';
+import { Outlet, useLocation, useNavigate } from 'react-router';
 import type { LinkProps } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -23,6 +23,8 @@ const Timer = (params: { children: (params: { time: Date }) => React.ReactNode }
 };
 
 const Layout = () => {
+  const navigate = useNavigate();
+
   /** 链接 */
   const LinkWrap = (props: LinkProps) => {
     const { to, children, className } = props;
@@ -49,11 +51,18 @@ const Layout = () => {
 
   return (
     <div className={cn('h-min-screen w-screen')}>
-      <header className={cn('h-16 w-full', 'sticky top-0', 'bg-background')}>
+      <div className="fixed top-0 left-0 z-[-2] h-screen w-screen bg-white bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+
+      <header className={cn('h-16 w-full', 'sticky top-0', 'backdrop-blur-md', 'z-50')}>
         <div className={cn('flex items-center justify-between', 'h-full', 'mx-6')}>
           {/* logo */}
           <div>
-            <Logo className={cn('size-6')} />
+            <Logo
+              className={cn('size-6', ' cursor-pointer')}
+              onClick={() => {
+                navigate('/');
+              }}
+            />
           </div>
 
           {/* header main */}
