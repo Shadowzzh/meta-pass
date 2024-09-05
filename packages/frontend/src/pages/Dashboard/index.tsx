@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { IoLocationOutline } from '@react-icons/all-files/io5/IoLocationOutline';
 import { IoTimeOutline } from '@react-icons/all-files/io5/IoTimeOutline';
-import { ConnectKitButton } from 'connectkit';
 import { formatDate } from 'date-fns';
 import { useReadContract } from 'wagmi';
 
@@ -79,7 +78,6 @@ const Dashboard = () => {
     abi: ABI,
     functionName: 'getAllEvents',
   });
-  console.log('🚀 ~ Dashboard ~ events:', events);
 
   const TabsWrap = (params: {
     tab: TabValues;
@@ -104,7 +102,6 @@ const Dashboard = () => {
   return (
     <div className={cn('w-full', 'h-min-full')}>
       <div className={cn('w-6xl h-screen', 'm-auto')}>
-        <ConnectKitButton label="Connect Wallet" />
         <div className={cn('flex items-center justify-between', 'pt-6 pb-6')}>
           <div className={cn('text-3xl font-bold')}>Events</div>
           <div>

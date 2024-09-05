@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import { ConnectKitButton } from 'connectkit';
 import { format } from 'date-fns';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import type { LinkProps } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import { cn } from '@/utils';
 import Logo from '/logo.svg?react';
 
+/** 当前时间 */
 const Timer = (params: { children: (params: { time: Date }) => React.ReactNode }) => {
   const [time, setTime] = useState(new Date());
 
@@ -21,13 +23,22 @@ const Timer = (params: { children: (params: { time: Date }) => React.ReactNode }
 };
 
 const Layout = () => {
+  /** 链接 */
   const LinkWrap = (props: LinkProps) => {
-    const { to, children } = props;
+    const { to, children, className } = props;
+    const { pathname } = useLocation();
+
+    //  是否是当前路由
+    const isCurrentRoute = pathname === to;
+
     return (
       <Link
         className={cn(
-          'text-muted-foreground hover:text-foreground text-sm',
+          'text-secondary-foreground/50 hover:text-accent-foreground text-sm',
           'transition-all duration-500',
+          'noselect-none',
+          isCurrentRoute && 'text-accent-foreground',
+          className,
         )}
         to={to}
       >
@@ -59,23 +70,19 @@ const Layout = () => {
             <div className={cn('flex items-center', 'space-x-4')}>
               <Timer>
                 {({ time }) => (
-                  <div className="text-sm text-muted-foreground/50 w-40">
+                  <div className="text-sm text-muted-foreground/50 w-36 mt-[0.1">
                     {format(time, 'yyyy-MM-dd HH:mm')}
                   </div>
                 )}
               </Timer>
 
-              <LinkWrap
-                className={cn(
-                  'text-muted-foreground hover:text-foreground',
-                  'transition-all duration-500',
-                )}
-                to="/create"
-              >
+              <LinkWrap className={cn('font-bold')} to="/create">
                 Create Event
               </LinkWrap>
 
-              <div>用户</div>
+              <div className="ml-3 flex justify-end">
+                <ConnectKitButton label="Connect Wallet" />
+              </div>
             </div>
           </div>
         </div>
