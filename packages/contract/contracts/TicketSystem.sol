@@ -11,6 +11,7 @@ contract TicketSystem is ReentrancyGuard {
     using ECDSA for bytes32;
 
     struct Event {
+        uint256 id; // 活动ID
         string name; // 活动名称
         string location; // 活动地点
         string description; // 活动描述
@@ -77,6 +78,7 @@ contract TicketSystem is ReentrancyGuard {
 
         uint256 eventId = nextEventId++;
         events[eventId] = Event(
+            eventId,
             _name,
             _location,
             _description,
