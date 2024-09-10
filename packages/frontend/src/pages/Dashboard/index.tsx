@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useModal } from '@ebay/nice-modal-react';
 import { IoLocationOutline } from '@react-icons/all-files/io5/IoLocationOutline';
+import { IoPricetagsOutline } from '@react-icons/all-files/io5/IoPricetagsOutline';
 import { IoTimeOutline } from '@react-icons/all-files/io5/IoTimeOutline';
 import { formatDate } from 'date-fns';
 import { useReadContract } from 'wagmi';
 
+import { EventSheet } from './EventSheet';
 import {
   Card,
   CardContent,
@@ -24,15 +27,25 @@ const tabOptions = [
 
 type TabValues = (typeof tabOptions)[number]['value'];
 
-const Discover = (params: { events?: EventInfo[] }) => {
+const Discover = (params: {
+  events?: EventInfo[];
+  onClick: (event: EventInfo) => void;
+}) => {
   const { events = [] } = params ?? {};
 
   /**  */
-  const DiscoverItem = (params: { event: EventInfo }) => {
-    const { event } = params;
+  const DiscoverItem = (params: { event: EventInfo; onClick: () => void }) => {
+    const { event, onClick } = params;
+
+    /** 票价 */
+    const ticketPrice = Number(BigInt(event.ticketPrice).toString());
 
     return (
-      <Card className={cn('flex', 'items-center', 'bg-background/20')} key={event.date}>
+      <Card
+        className={cn('flex', 'items-center', 'bg-background/20', 'cursor-pointer')}
+        key={event.date}
+        onClick={() => onClick()}
+      >
         <div className={cn('size-48 overflow-hidden', ' p-3', 'shrink-0')}>
           <img
             className={cn('size-full object-cover', 'rounded-lg')}
@@ -57,7 +70,10 @@ const Discover = (params: { events?: EventInfo[] }) => {
               <IoLocationOutline />
               <span>{event.location}</span>
             </div>
-            {event.tickets && <div>{event.tickets}</div>}
+            <div className={cn('flex items-center', 'space-x-1')}>
+              <IoPricetagsOutline />
+              <span>{ticketPrice || 'Free'}</span>
+            </div>
           </CardContent>
         </div>
       </Card>
@@ -67,7 +83,13 @@ const Discover = (params: { events?: EventInfo[] }) => {
   return (
     <div className={cn('space-y-6')}>
       {events.map((event) => {
-        return <DiscoverItem event={event} />;
+        return (
+          <DiscoverItem
+            key={event.id.toString()}
+            event={event}
+            onClick={() => params.onClick(event)}
+          />
+        );
       })}
     </div>
   );
@@ -82,6 +104,9 @@ const Dashboard = () => {
     abi: ABI,
     functionName: 'getAllEvents',
   });
+  console.log('🚀 ~ Dashboard ~ events:', events);
+
+  const eventSheet = useModal(EventSheet);
 
   const TabsWrap = (params: {
     tab: TabValues;
@@ -119,7 +144,14 @@ const Dashboard = () => {
           </div>
         </div>
         <div>
-          {tab === 'discover' && <Discover events={events as EventInfo[]} />}
+          {tab === 'discover' && (
+            <Discover
+              events={events as EventInfo[]}
+              onClick={(eventInfo) => {
+                eventSheet.show({ eventInfo });
+              }}
+            />
+          )}
           {tab === 'upcoming' && <div>Upcoming</div>}
           {tab === 'past' && <div>Past</div>}
         </div>

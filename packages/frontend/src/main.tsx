@@ -11,11 +11,11 @@ import './styles/globals.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <NiceModal.Provider>
-      <Web3Provider>
+    <Web3Provider>
+      <NiceModal.Provider>
         <RouterProvider router={browserRouter} />
-      </Web3Provider>
-    </NiceModal.Provider>
+      </NiceModal.Provider>
+    </Web3Provider>
     <Toaster />
   </React.StrictMode>,
 );

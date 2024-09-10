@@ -1,17 +1,19 @@
 /** 事件信息 */
 export interface EventInfo {
   /** 事件 ID */
-  id: number;
+  id: Bigint;
   /** 事件名称 */
   name: string;
   /** 开始日期 */
-  date: number;
+  date: Bigint;
   /** 地点 */
   location: string;
   /** 票价 */
-  tickets: number;
+  ticketPrice: Bigint;
+  /** 已售出的票数 */
+  ticketsSold: Bigint;
   /** 总票数 */
-  capacity: number;
+  totalTickets: Bigint;
   /** 描述 */
   description: string;
   /** 图片 */
