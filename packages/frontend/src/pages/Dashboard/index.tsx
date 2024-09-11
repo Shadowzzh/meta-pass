@@ -33,7 +33,7 @@ const Discover = (params: {
 }) => {
   const { events = [] } = params ?? {};
 
-  /**  */
+  /** 发现项目 */
   const DiscoverItem = (params: { event: EventInfo; onClick: () => void }) => {
     const { event, onClick } = params;
 
@@ -46,7 +46,7 @@ const Discover = (params: {
         key={event.date}
         onClick={() => onClick()}
       >
-        <div className={cn('size-48 overflow-hidden', ' p-3', 'shrink-0')}>
+        <div className={cn('size-[10.5rem] overflow-hidden', ' p-3', 'shrink-0')}>
           <img
             className={cn('size-full object-cover', 'rounded-lg')}
             src={event.imageSrc ?? '/public/images/default-cover.webp'}
@@ -61,7 +61,7 @@ const Discover = (params: {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className={cn('text-muted-foreground', 'text-base')}>
+          <CardContent className={cn('text-muted-foreground', 'text-base', 'flex', 'space-x-4')}>
             <div className={cn('flex items-center', 'space-x-1')}>
               <IoTimeOutline />
               <span>{formatDate(new Date(Number(event.date)), 'yyyy-MM-dd HH:mm')}</span>
