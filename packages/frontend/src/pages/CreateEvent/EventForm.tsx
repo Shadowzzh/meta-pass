@@ -146,7 +146,7 @@ const EventForm = (props: EventFormProps) => {
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'justify-start text-left font-normal',
+                          'justify-start text-left font-normal bg-transparent',
                           !field.value && 'text-muted-foreground',
                         )}
                       >
