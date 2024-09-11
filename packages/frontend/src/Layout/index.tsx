@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { ConnectKitButton } from 'connectkit';
+import { Avatar } from 'connectkit';
 import { format } from 'date-fns';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import type { LinkProps } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+import { LayoutMenu } from './Menu';
 import { cn } from '@/utils';
 import Logo from '/logo.svg?react';
 
@@ -90,7 +91,11 @@ const Layout = () => {
               </LinkWrap>
 
               <div className="ml-3 flex justify-end">
-                <ConnectKitButton label="Connect Wallet" />
+                <LayoutMenu>
+                  {({ address }) => {
+                    return <Avatar size={36} address={address} />;
+                  }}
+                </LayoutMenu>
               </div>
             </div>
           </div>
