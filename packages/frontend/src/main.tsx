@@ -3,7 +3,7 @@ import NiceModal from '@ebay/nice-modal-react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 import { Web3Provider } from '@/components/Web3Provider';
 import { browserRouter } from '@/router/config';
 

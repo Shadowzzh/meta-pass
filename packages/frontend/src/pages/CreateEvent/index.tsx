@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { ReloadIcon } from '@radix-ui/react-icons';
+import { IoCheckmarkCircle } from '@react-icons/all-files/io5/IoCheckmarkCircle';
+import { useModal } from 'connectkit';
 import { useNavigate } from 'react-router';
-import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
+import { toast } from 'sonner';
+import { useAccount, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 import type { z } from 'zod';
 
 import { PickerImage } from './components/PickerImage';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
 import { ABI, CONTRACT_ADDRESS } from '@/config';
 import type { FormSchema } from '@/pages/CreateEvent/EventForm';
 import { EventForm } from '@/pages/CreateEvent/EventForm';
@@ -16,79 +18,85 @@ import { cn } from '@/utils';
  * 创建活动页面
  */
 const CreateEvent = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   /** 图片 */
   const [image, setImage] = useState<string>('/public/images/default-cover.webp');
+  /** 连接状态 */
+  const { isConnected } = useAccount();
+  /** 设置弹窗状态 */
+  const { setOpen } = useModal();
+  /** 交易状态 */
+  const {
+    writeContract,
+    data: hash,
+    isPending,
+  } = useWriteContract({
+    mutation: {
+      onSuccess: () => {
+        toast('Transaction Submitted', {
+          description: 'Waiting for blockchain confirmation...', // 等待区块链确认
+        });
+      },
+      onError: (error) => {
+        toast('Error', {
+          description: (error as any).details,
+        });
+      },
+    },
+  });
 
-  const { writeContract, data: hash, error, isPending } = useWriteContract();
-
+  /** 交易状态 */
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
   });
 
+  /** 图片改变 */
   const onImageChange = (image: string) => {
     setImage(image);
   };
 
+  /** 提交 */
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
-    toast({
-      title: 'create event',
-      description: 'preparing to create event...',
+    if (!isConnected) {
+      setOpen(true);
+      return;
+    }
+
+    await writeContract({
+      abi: ABI,
+      address: CONTRACT_ADDRESS,
+      functionName: 'createEvent',
+      args: [
+        formData.eventName,
+        formData.location,
+        formData.description,
+        image,
+        formData.startDate.valueOf(),
+        formData.capacity,
+        formData.tickets,
+      ],
     });
 
-    try {
-      await writeContract({
-        abi: ABI,
-        address: CONTRACT_ADDRESS,
-        functionName: 'createEvent',
-        args: [
-          formData.eventName,
-          formData.location,
-          formData.description,
-          image,
-          formData.startDate.valueOf(),
-          formData.capacity,
-          formData.tickets,
-        ],
-      });
-
-      toast({
-        title: 'Transaction Submitted',
-        description: 'Waiting for blockchain confirmation...',
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Transaction Failed',
-        description: error.message,
-      });
-    }
+    toast('Transaction Submitted', {
+      description: 'Waiting for blockchain confirmation...', // 等待区块链确认
+    });
   };
 
+  /** 交易状态 */
   useEffect(() => {
-    if (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: error.message,
-      });
-    } else if (isConfirming) {
-      toast({
-        title: 'Confirming',
-        description: 'Transaction is being confirmed...',
+    if (isConfirming) {
+      toast('Confirming', {
+        description: 'Transaction is being confirmed...', // 交易正在确认中
       });
     } else if (isSuccess) {
-      toast({
-        title: 'Success',
-        description: 'Event created successfully!',
+      toast('Transaction Confirmed', {
+        description: 'Transaction has been confirmed.', // 交易已确认
+        icon: <IoCheckmarkCircle className="size-4 text-green-500" />,
       });
       navigate('/dashboard');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, isConfirming, isSuccess, toast]);
+  }, [isConfirming, isSuccess]);
 
   return (
     <div className={cn('w-full', 'min-h-[calc(100vh-4rem)]')}>
