@@ -35,7 +35,7 @@ const Home = () => {
           className={cn(
             'relative z-10 ',
             'text-4xl md:text-7xl bg-clip-text text-transparent text-center font-bold',
-            'bg-gradient-to-b from-neutral-200 to-neutral-600 ',
+            'dark:bg-gradient-to-b dark:from-neutral-200 dark:to-neutral-600 text-neutral-800',
           )}
         >
           Welcome to MetaPass
@@ -43,13 +43,16 @@ const Home = () => {
         <p
           className={cn(
             'text-sm md:text-base text-center',
-            'text-neutral-400 max-w-xl mx-auto my-4  relative z-10',
+            'dark:text-neutral-400 text-neutral-600 max-w-xl mx-auto mb-4 mt-6  relative z-10',
           )}
         >
-          Step into the future of event ticketing with MetaPass. Our blockchain-powered
-          platform offers unparalleled security and efficiency for event organizers and
-          attendees. From concerts to conferences, experience seamless, fraud-free
-          ticketing that&apos;s changing the game.
+          Step into the future of event ticketing with MetaPass. <br />
+          Our blockchain-powered platform offers unparalleled
+          <span className="font-bold  mx-1 text-base">security</span> and efficiency for
+          event organizers and attendees. <br />
+          From concerts to conferences, experience seamless,
+          <span className="font-bold  mx-1 text-base">fraud-free</span> ticketing
+          that&apos;s changing the game.
         </p>
         <div
           className={cn(
@@ -57,7 +60,7 @@ const Home = () => {
             'text-foreground',
           )}
         >
-          <Button variant="secondary" asChild>
+          <Button variant="outline" asChild>
             <NavLink to="/dashboard">Enter</NavLink>
           </Button>
         </div>
