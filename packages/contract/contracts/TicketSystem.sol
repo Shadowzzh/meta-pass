@@ -38,8 +38,8 @@ contract TicketSystem is ReentrancyGuard {
     mapping(uint256 => address) public eventCreators;
     // 存储所有门票：eventId => ticketId => Ticket
     mapping(uint256 => mapping(uint256 => Ticket)) public tickets;
-    // 存储用户拥有的门票ID：user => eventId => ticketIds
-    mapping(address => mapping(uint256 => uint256[])) public userTicketIds;
+    // 存储用户拥有的门票ID：user => ticketIds
+    mapping(address => Ticket[]) public userTicketIds;
 
     uint256 public nextEventId = 1; // 下一个活动ID
     uint256 public nextTicketId = 1; // 下一个门票ID
@@ -98,15 +98,16 @@ contract TicketSystem is ReentrancyGuard {
     /// @notice 允许用户购买活动门票
     /// @param _eventId 活动ID
     function buyTicket(uint256 _eventId) public payable nonReentrant {
-        Event storage _event = events[_eventId];
+        Event memory _event = events[_eventId];
         require(_event.isActive, 'Event is not active');
         require(block.timestamp < _event.date, 'Event has already occurred');
         require(_event.ticketsSold < _event.totalTickets, 'Event is sold out');
         require(msg.value == _event.ticketPrice, 'Incorrect ticket price');
 
         uint256 ticketId = nextTicketId++;
-        tickets[_eventId][ticketId] = Ticket(_eventId, msg.sender, false);
-        userTicketIds[msg.sender][_eventId].push(ticketId);
+        Ticket memory ticket = Ticket(_eventId, msg.sender, false);
+        tickets[_eventId][ticketId] = ticket;
+        userTicketIds[msg.sender].push(ticket);
 
         _event.ticketsSold++;
 
@@ -142,6 +143,18 @@ contract TicketSystem is ReentrancyGuard {
             allEvents[i] = events[allEventIds[i]];
         }
         return allEvents;
+    }
+
+    /// @notice 获取用户所有门票
+    /// @param _user 用户地址
+    /// @return 返回用户所有门票的数组
+    function getUserTickets(address _user) public view returns (Ticket[] memory) {
+        uint256 ticketCount = userTicketIds[_user].length;
+        Ticket[] memory userTickets = new Ticket[](ticketCount);
+        for (uint256 i = 0; i < ticketCount; i++) {
+            userTickets[i] = userTicketIds[_user][i];
+        }
+        return userTickets;
     }
 
     /// @notice 获取活动总数
