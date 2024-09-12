@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useModal } from '@ebay/nice-modal-react';
 import { IoLocationOutline } from '@react-icons/all-files/io5/IoLocationOutline';
+import { IoLogoDropbox } from '@react-icons/all-files/io5/IoLogoDropbox';
 import { IoPricetagsOutline } from '@react-icons/all-files/io5/IoPricetagsOutline';
 import { IoTimeOutline } from '@react-icons/all-files/io5/IoTimeOutline';
 import { formatDate } from 'date-fns';
@@ -21,7 +22,7 @@ import { cn } from '@/utils';
 
 const tabOptions = [
   { label: 'Upcoming', value: 'upcoming' },
-  { label: 'Past', value: 'past' },
+  { label: 'Registered', value: 'Registered' },
 ] as const;
 
 type TabValues = (typeof tabOptions)[number]['value'];
@@ -81,6 +82,17 @@ const Discover = (params: {
     );
   };
 
+  if (events.length === 0) {
+    return (
+      <div className={cn('flex flex-col items-center justify-center', 'h-full', 'mt-20')}>
+        <IoLogoDropbox className={cn('text-muted-foreground', 'size-44')} />
+        <div className={cn('text-muted-foreground', 'text-center', 'text-lg', 'mt-4')}>
+          No events found
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={cn('space-y-6')}>
       {events.map((event) => {
@@ -128,12 +140,14 @@ const Dashboard = () => {
 
   const { address } = useAccount();
 
+  /** 所有事件 */
   const { data: events = [] } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: ABI,
     functionName: 'getAllEvents',
   });
 
+  /** 用户拥有的票 */
   const userTicket = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: ABI,
@@ -141,21 +155,21 @@ const Dashboard = () => {
     args: [address],
   });
 
-  const userTicketData = userTicket.data as TicketInfo[];
+  const userTicketData = (userTicket.data as TicketInfo[]) || [];
 
   const eventSheet = useModal(EventSheet);
 
-  /** 发现项目 */
+  /** 即将到来的项目 */
   const upcomingEvents = useMemo(() => {
     return (events as EventInfo[]).filter((event) =>
-      userTicketData.some((ticket) => ticket.eventId !== event.id),
+      userTicketData.every((ticket) => ticket.eventId.toString() !== event.id.toString()),
     );
   }, [events, userTicketData]);
 
-  /** 即将到来的项目 */
-  const pastEvents = useMemo(() => {
+  /** 已注册的项目 */
+  const registeredEvents = useMemo(() => {
     return (events as EventInfo[]).filter((event) =>
-      userTicketData.some((ticket) => ticket.eventId === event.id),
+      userTicketData.some((ticket) => ticket.eventId.toString() === event.id.toString()),
     );
   }, [events, userTicketData]);
 
@@ -182,7 +196,7 @@ const Dashboard = () => {
               }}
             />
           )}
-          {tab === 'past' && <Discover events={pastEvents} />}
+          {tab === 'Registered' && <Discover events={registeredEvents} />}
         </div>
       </div>
     </div>
