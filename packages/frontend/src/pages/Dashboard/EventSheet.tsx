@@ -1,10 +1,13 @@
+import { useEffect } from 'react';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import { ReloadIcon } from '@radix-ui/react-icons';
 import { FaAngleDoubleRight } from '@react-icons/all-files/fa/FaAngleDoubleRight';
 import { IoLocationOutline } from '@react-icons/all-files/io5/IoLocationOutline';
 import { IoPricetagsOutline } from '@react-icons/all-files/io5/IoPricetagsOutline';
 import { IoTimeOutline } from '@react-icons/all-files/io5/IoTimeOutline';
 import { formatDate } from 'date-fns';
-import { useReadContract, useWriteContract } from 'wagmi';
+import { toast } from 'sonner';
+import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -18,11 +21,23 @@ import { ABI, CONTRACT_ADDRESS } from '@/config';
 import type { EventInfo } from '@/types/eventInfo';
 import { cn } from '@/utils';
 
-export const EventSheet = NiceModal.create((params: { eventInfo: EventInfo }) => {
-  const { eventInfo } = params;
-  const { writeContract } = useWriteContract();
+interface EventSheetProps {
+  /** 活动信息 */
+  eventInfo: EventInfo;
+  /** 购买成功回调 */
+  onSuccess?: () => void;
+}
+
+export const EventSheet = NiceModal.create((params: EventSheetProps) => {
+  const { eventInfo, onSuccess } = params;
+  const { writeContract, data: hash, isPending } = useWriteContract();
 
   const modal = useModal();
+
+  /** 交易状态 */
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
+    hash,
+  });
 
   /** 票价 */
   const ticketPrice = Number(BigInt(eventInfo.ticketPrice).toString());
@@ -35,7 +50,24 @@ export const EventSheet = NiceModal.create((params: { eventInfo: EventInfo }) =>
       functionName: 'buyTicket',
       args: [eventInfo.id],
     });
+
+    toast('Transaction Submitted', {
+      description: 'Waiting for blockchain confirmation...', // 等待区块链确认
+    });
   };
+
+  useEffect(() => {
+    if (isConfirming) {
+      toast('Confirming', {
+        description: 'Transaction is being confirmed...', // 交易正在确认中
+      });
+    } else if (isSuccess) {
+      toast('Success', {
+        description: 'Transaction confirmed successfully!', // 交易确认成功
+      });
+      onSuccess?.();
+    }
+  }, [isConfirming, isSuccess]);
 
   return (
     <Sheet
@@ -64,7 +96,7 @@ export const EventSheet = NiceModal.create((params: { eventInfo: EventInfo }) =>
           <SheetTitle className="text-3xl pt-5">{eventInfo.name}</SheetTitle>
         </SheetHeader>
 
-        <SheetDescription className={cn('px-4', 'text-base text-secondary-foreground')}>
+        <div className={cn('px-4', 'text-base text-secondary-foreground')}>
           {/* base Info */}
           <div className={cn('space-y-2')}>
             <div className={cn('flex items-center')}>
@@ -92,14 +124,19 @@ export const EventSheet = NiceModal.create((params: { eventInfo: EventInfo }) =>
           </div>
 
           <div className="pt-3">
-            <h2 className="text-lg border-b pb-2">About Event</h2>
-            <div className="pt-3">{eventInfo.description}</div>
+            <div className="text-lg border-b pb-2">About Event</div>
+            <SheetDescription className="pt-3">{eventInfo.description}</SheetDescription>
           </div>
 
-          <Button className="w-full mt-4" onClick={onBuyTicket}>
+          <Button
+            disabled={isPending || isConfirming}
+            className="w-full mt-4"
+            onClick={onBuyTicket}
+          >
+            {isPending && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             Buy Ticket
           </Button>
-        </SheetDescription>
+        </div>
       </SheetContent>
     </Sheet>
   );

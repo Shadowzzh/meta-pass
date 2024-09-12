@@ -19,3 +19,12 @@ export interface EventInfo {
   /** 图片 */
   imageSrc: string;
 }
+
+export interface TicketInfo {
+  /** 事件 ID */
+  eventId: Bigint;
+  /** 所有者 */
+  owner: string;
+  /** 是否已使用 */
+  isUsed: boolean;
+}
