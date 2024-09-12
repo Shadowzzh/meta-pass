@@ -59,7 +59,7 @@ const Layout = () => {
           {/* logo */}
           <div>
             <Logo
-              className={cn('size-6', ' cursor-pointer')}
+              className={cn('size-6', ' cursor-pointer', 'cursor-pointer')}
               onClick={() => {
                 navigate('/');
               }}
