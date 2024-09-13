@@ -5,11 +5,16 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [react(), svgr()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
       '@contract': path.resolve(__dirname, '../contract'),
     },
+  },
+  publicDir: './public',
+  build: {
+    outDir: path.resolve('../../docs'),
   },
 });

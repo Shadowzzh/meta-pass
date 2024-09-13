@@ -14,7 +14,7 @@ interface PickerImageProps {
 
 /** 图片选择器 */
 export const PickerImage = (props: PickerImageProps) => {
-  const [image, setImage] = useState<string>('/public/images/default-cover.webp');
+  const [image, setImage] = useState<string>('/images/default-cover.webp');
 
   const onChoose = (image: string) => {
     setImage(image);

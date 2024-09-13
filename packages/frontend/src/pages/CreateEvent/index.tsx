@@ -21,7 +21,7 @@ const CreateEvent = () => {
   const navigate = useNavigate();
 
   /** 图片 */
-  const [image, setImage] = useState<string>('/public/images/default-cover.webp');
+  const [image, setImage] = useState<string>('/images/default-cover.webp');
   /** 连接状态 */
   const { isConnected } = useAccount();
   /** 设置弹窗状态 */
