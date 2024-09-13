@@ -13,7 +13,6 @@ export default defineConfig({
       '@contract': path.resolve(__dirname, '../contract'),
     },
   },
-  publicDir: './public',
   build: {
     outDir: path.resolve('../../docs'),
   },
