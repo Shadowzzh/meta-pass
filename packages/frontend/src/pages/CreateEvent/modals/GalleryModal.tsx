@@ -25,7 +25,7 @@ export const GalleryModal = create((props: GalleryModalProps) => {
   const modal = useModal();
 
   /** 全路径 */
-  const fullUrl = (imageName: string) => `/public/images/${imageName}.webp`;
+  const fullUrl = (imageName: string) => `/images/${imageName}.webp`;
 
   /** 选择图片 */
   const onChoose = (imageName: string) => {
