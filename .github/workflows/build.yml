@@ -1,0 +1,60 @@
+permissions:
+  contents: read
+  pages: write
+  deployments: write
+  id-token: write
+
+name: pages-function-test
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    # jobs.<job_id>.strategy
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    strategy:
+      matrix:
+        node-version: [20]
+    steps:
+      - uses: actions/checkout@v4
+      # 安装 pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      # 使用 Node.js
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      # 打印 Node.js 版本
+      - name: Echo node version
+        run: node -v
+      # 打印 pnpm 版本
+      - name: Echo pnpm version
+        run: pnpm -v
+      # 安装依赖
+      - name: Install dependencies
+        run: pnpm install
+      # 构建项目
+      - name: pnpm build
+        run: pnpm build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './docs'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
