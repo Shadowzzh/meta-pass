@@ -13,6 +13,7 @@ import { ABI, CONTRACT_ADDRESS } from '@/config';
 import type { FormSchema } from '@/pages/CreateEvent/EventForm';
 import { EventForm } from '@/pages/CreateEvent/EventForm';
 import { cn } from '@/utils';
+import { getAssetPath } from '@/utils/env';
 
 /**
  * 创建活动页面
@@ -21,7 +22,7 @@ const CreateEvent = () => {
   const navigate = useNavigate();
 
   /** 图片 */
-  const [image, setImage] = useState<string>('/images/default-cover.webp');
+  const [image, setImage] = useState<string>(getAssetPath('/images/default-cover.webp'));
   /** 连接状态 */
   const { isConnected } = useAccount();
   /** 设置弹窗状态 */

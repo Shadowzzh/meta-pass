@@ -19,6 +19,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ABI, CONTRACT_ADDRESS } from '@/config';
 import { EventInfo, TicketInfo } from '@/types/eventInfo';
 import { cn } from '@/utils';
+import { getAssetPath } from '@/utils/env';
 
 const tabOptions = [
   { label: 'Upcoming', value: 'upcoming' },
@@ -49,7 +50,7 @@ const Discover = (params: {
         <div className={cn('size-[10.5rem] overflow-hidden', ' p-3', 'shrink-0')}>
           <img
             className={cn('size-full object-cover', 'rounded-lg')}
-            src={event.imageSrc ?? '/images/default-cover.webp'}
+            src={getAssetPath(event.imageSrc ?? '/images/default-cover.webp')}
             alt="event-cover"
           />
         </div>
