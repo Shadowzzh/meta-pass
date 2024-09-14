@@ -92,7 +92,13 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      transitionTimingFunction: {
+        'out-expo': 'cubic-bezier(0.190, 1.000, 0.220, 1.000)',
+        'out-quart': 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+        'out-circ': 'cubic-bezier(0.075, 0.82, 0.165, 1)',
     },
+    },
+
   },
   plugins: [addVariablesForColors, TailwindcssAnimate,
     function ({ matchUtilities, theme }) {

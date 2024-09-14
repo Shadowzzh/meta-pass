@@ -57,13 +57,23 @@ const Layout = () => {
       <header className={cn('h-16 w-full', 'sticky top-0', 'backdrop-blur-md', 'z-50')}>
         <div className={cn('flex items-center justify-between', 'h-full', 'mx-6')}>
           {/* logo */}
-          <div>
-            <Logo
-              className={cn('size-6', ' cursor-pointer', 'cursor-pointer')}
-              onClick={() => {
-                navigate('/');
-              }}
-            />
+          <div
+            className={cn(
+              'flex items-center flex-nowrap',
+              'pr-5',
+              'cursor-pointer',
+              'hover:scale-110',
+              'transition-all ease-out-quart duration-1000',
+            )}
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            <Logo className={cn('size-6', ' cursor-pointer', 'pr-2')} />
+            <span className="text-sm text-muted-foreground whitespace-nowrap">
+              {' '}
+              Beta.
+            </span>
           </div>
 
           {/* header main */}
@@ -101,7 +111,10 @@ const Layout = () => {
           </div>
         </div>
       </header>
-      <Outlet />
+
+      <div className={cn('mx-6')}>
+        <Outlet />
+      </div>
     </div>
   );
 };

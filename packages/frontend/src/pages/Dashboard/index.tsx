@@ -176,7 +176,7 @@ const Dashboard = () => {
 
   return (
     <div className={cn('w-full', 'h-min-full')}>
-      <div className={cn('w-6xl h-screen', 'm-auto')}>
+      <div className={cn('w-full h-screen', 'm-auto')}>
         <div className={cn('flex items-center justify-between', 'pt-6 pb-16')}>
           <div className={cn('text-3xl font-bold')}>Events</div>
           <div>
