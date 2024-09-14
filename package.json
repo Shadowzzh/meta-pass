@@ -12,7 +12,8 @@
     "hardhat-clean": "pnpm --filter contract clean",
     "hardhat-compile": "pnpm --filter contract compile",
     "hardhat-node": "pnpm --filter contract node",
-    "hardhat-deploy": "pnpm --filter contract deploy",
+    "hardhat-deploy": "pnpm --filter contract deploy-local",
+    "sepolia-deploy": "pnpm --filter contract deploy-sepolia",
     "prettier": "prettier --write '**'"
   },
   "engines": {
