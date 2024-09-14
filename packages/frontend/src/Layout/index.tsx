@@ -38,8 +38,9 @@ const Layout = () => {
       <Link
         className={cn(
           'text-secondary-foreground/50 hover:text-accent-foreground text-sm',
-          'transition-all duration-500',
-          'noselect-none',
+          'hover:scale-105',
+          'transition-all ease-out-quart duration-1000',
+          'select-none',
           isCurrentRoute && 'text-accent-foreground',
           className,
         )}
@@ -70,10 +71,7 @@ const Layout = () => {
             }}
           >
             <Logo className={cn('size-6', ' cursor-pointer', 'pr-2')} />
-            <span className="text-sm text-muted-foreground whitespace-nowrap">
-              {' '}
-              Beta.
-            </span>
+            <span className="text-sm text-muted-foreground whitespace-nowrap">Beta.</span>
           </div>
 
           {/* header main */}
