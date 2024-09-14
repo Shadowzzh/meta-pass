@@ -48,7 +48,7 @@ jobs:
         run: pnpm install
       # 构建项目
       - name: pnpm build
-        run: pnpm build
+        run: pnpm build:github
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

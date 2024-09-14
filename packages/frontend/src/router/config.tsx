@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter, createHashRouter, Navigate } from 'react-router-dom';
 
 import Home from '@/Home';
 import Layout from '@/Layout';
@@ -36,5 +36,9 @@ export const routerConfig: RouteObject[] = [
   },
 ];
 
-export const browserRouter: ReturnType<typeof createBrowserRouter> =
-  createBrowserRouter(routerConfig);
+const routerInstance: ReturnType<typeof createBrowserRouter | typeof createHashRouter> =
+  import.meta.env.VITE_BUILD_MODE === 'github'
+    ? createHashRouter(routerConfig)
+    : createBrowserRouter(routerConfig);
+
+export default routerInstance;

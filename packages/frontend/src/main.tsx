@@ -5,7 +5,7 @@ import { RouterProvider } from 'react-router-dom';
 
 import { Toaster } from '@/components/ui/sonner';
 import { Web3Provider } from '@/components/Web3Provider';
-import { browserRouter } from '@/router/config';
+import routerInstance from '@/router/config';
 
 import './styles/globals.css';
 
@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Web3Provider>
       <NiceModal.Provider>
-        <RouterProvider router={browserRouter} />
+        <RouterProvider router={routerInstance} />
       </NiceModal.Provider>
     </Web3Provider>
     <Toaster />
