@@ -7,10 +7,10 @@
   "scripts": {
     "dev": "pnpm --filter frontend dev",
     "build": "pnpm --filter frontend build",
-    "hardhat-clean": "(cd packages/contract && npx hardhat clean)",
-    "hardhat-compile": "(cd packages/contract && npx hardhat compile)",
-    "hardhat-node": "(cd packages/contract && npx hardhat node)",
-    "hardhat-deploy": "(cd packages/contract && npx hardhat ignition deploy ./ignition/modules/TicketSystem.ts --network localhost)",
+    "hardhat-clean": "pnpm --filter contract clean",
+    "hardhat-compile": "pnpm --filter contract compile",
+    "hardhat-node": "pnpm --filter contract node",
+    "hardhat-deploy": "pnpm --filter contract deploy",
     "prettier": "prettier --write '**'"
   },
   "engines": {
