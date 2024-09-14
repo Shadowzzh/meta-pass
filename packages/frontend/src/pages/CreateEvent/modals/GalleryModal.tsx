@@ -37,13 +37,18 @@ export const GalleryModal = create((props: GalleryModalProps) => {
 
   return (
     <Dialog open={modal.visible} onOpenChange={modal.hide}>
-      <DialogContent className={cn(props.className, 'max-w-2xl')}>
+      <DialogContent className={cn(props.className, 'md:max-w-2xl w-[90vw] md:rounded-xl rounded-sm')}>
         <DialogHeader>
           <DialogTitle className="text-center">选择图片</DialogTitle>
           <DialogDescription>选择一张图片作为活动封面。</DialogDescription>
         </DialogHeader>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div
+          className={cn(
+            'grid md:grid-cols-3 grid-cols-2 md:gap-2 gap-1',
+            ' h-[40vh] overflow-y-auto',
+          )}
+        >
           {imageNames.map((imageName) => {
             return (
               <img

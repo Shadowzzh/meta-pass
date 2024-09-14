@@ -28,11 +28,11 @@ export const PickerImage = (props: PickerImageProps) => {
     <div
       className={cn(
         'relative overflow-hidden',
-        'size-[22rem]',
+        'md:size-[22rem] w-full h-[12rem]',
         'rounded-2xl',
-        'border-2 border-gray300',
+        'md:border-2 border border-gray300',
         'shrink-0 ',
-        'mr-8',
+        'md:mr-8 mr-0',
         'cursor-pointer',
         props.className,
       )}

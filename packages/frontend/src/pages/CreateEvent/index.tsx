@@ -101,11 +101,18 @@ const CreateEvent = () => {
 
   return (
     <div className={cn('w-full', 'min-h-[calc(100vh-4rem)]')}>
-      <div className={cn('w-6xl', 'm-auto', 'flex justify-between', 'pt-6')}>
+      <div
+        className={cn(
+          'md:w-6xl w-auto',
+          'm-auto',
+          'flex justify-between md:flex-row flex-col md:items-start items-center',
+          'md:pt-6 pt-4',
+        )}
+      >
         {/* 图片选择器 */}
         <PickerImage onChange={onImageChange} imageSrc={image} />
 
-        <div className={cn('w-full pt-2')}>
+        <div className={cn('w-full md:pt-2 mt-6')}>
           {/* 表单 */}
           <EventForm
             onSubmit={onSubmit}
