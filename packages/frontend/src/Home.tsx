@@ -26,11 +26,11 @@ const Home = () => {
   return (
     <div
       className={cn(
-        'h-screen w-screen',
+        'h-full w-full overflow-hidden',
         'relative flex flex-col items-center justify-center antialiased',
       )}
     >
-      <AuroraBackground className="h-screen w-screen">
+      <AuroraBackground className="relative md:top-0 top-[-10%] px-4 md:px-0">
         <h1
           className={cn(
             'relative z-10 ',
