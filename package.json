@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm --filter frontend dev",
+    "dev:github": "pnpm --filter frontend dev:github",
     "build": "pnpm --filter frontend build",
+    "build:github": "pnpm --filter frontend build:github",
     "hardhat-clean": "pnpm --filter contract clean",
     "hardhat-compile": "pnpm --filter contract compile",
     "hardhat-node": "pnpm --filter contract node",
