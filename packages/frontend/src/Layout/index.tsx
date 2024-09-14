@@ -20,7 +20,7 @@ const Timer = (params: { children: (params: { time: Date }) => React.ReactNode }
     return () => clearInterval(interval);
   }, []);
 
-  return params.children({ time });
+  return <span>{params.children({ time })}</span>;
 };
 
 const Layout = () => {
@@ -55,7 +55,7 @@ const Layout = () => {
     <div className={cn('h-min-screen w-screen')}>
       <div className="fixed top-0 left-0 z-[-2] h-screen w-screen bg-white bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
 
-      <header className={cn('h-16 w-full', 'sticky top-0', 'backdrop-blur-md', 'z-50')}>
+      <header className={cn('h-16 w-full min-w-[20rem]', 'sticky top-0', 'backdrop-blur-md', 'z-50')}>
         <div className={cn('flex items-center justify-between', 'h-full', 'mx-6')}>
           {/* logo */}
           <div
@@ -88,7 +88,7 @@ const Layout = () => {
             <div className={cn('flex items-center', 'space-x-4')}>
               <Timer>
                 {({ time }) => (
-                  <div className="text-sm text-muted-foreground/50 w-36 mt-[0.1">
+                  <div className="text-sm text-muted-foreground/50 w-36 mt-[0.1] md:block hidden">
                     {format(time, 'yyyy-MM-dd HH:mm')}
                   </div>
                 )}
