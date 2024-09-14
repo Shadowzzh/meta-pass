@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { cn } from '@/utils';
+import { getAssetPath } from '@/utils/env';
 
 interface GalleryModalProps {
   trigger: ReactNode;
@@ -25,7 +26,7 @@ export const GalleryModal = create((props: GalleryModalProps) => {
   const modal = useModal();
 
   /** 全路径 */
-  const fullUrl = (imageName: string) => `/images/${imageName}.webp`;
+  const fullUrl = (imageName: string) => getAssetPath(`/images/${imageName}.webp`);
 
   /** 选择图片 */
   const onChoose = (imageName: string) => {

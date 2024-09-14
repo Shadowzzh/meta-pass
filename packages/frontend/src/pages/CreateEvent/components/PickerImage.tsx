@@ -5,6 +5,7 @@ import { ImageIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import { GalleryModal } from '@/pages/CreateEvent/modals/GalleryModal';
 import { cn } from '@/utils';
+import { getAssetPath } from '@/utils/env';
 
 interface PickerImageProps {
   onChange?: (image: string) => void;
@@ -14,7 +15,7 @@ interface PickerImageProps {
 
 /** 图片选择器 */
 export const PickerImage = (props: PickerImageProps) => {
-  const [image, setImage] = useState<string>('/images/default-cover.webp');
+  const [image, setImage] = useState<string>(getAssetPath('/images/default-cover.webp'));
 
   const onChoose = (image: string) => {
     setImage(image);
