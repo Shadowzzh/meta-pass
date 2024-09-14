@@ -83,10 +83,11 @@ const Discover = (params: {
     );
   };
 
+  /** 没有事件 Empty */
   if (events.length === 0) {
     return (
       <div className={cn('flex flex-col items-center justify-center', 'h-full', 'mt-20')}>
-        <IoLogoDropbox className={cn('text-muted-foreground', 'size-44')} />
+        <IoLogoDropbox className={cn('text-muted-foreground', 'md:size-44 size-28')} />
         <div className={cn('text-muted-foreground', 'text-center', 'text-lg', 'mt-4')}>
           No events found
         </div>
@@ -178,7 +179,7 @@ const Dashboard = () => {
     <div className={cn('w-full', 'h-min-full')}>
       <div className={cn('w-full h-screen', 'm-auto')}>
         <div className={cn('flex items-center justify-between', 'pt-6 pb-16')}>
-          <div className={cn('text-3xl font-bold')}>Events</div>
+          <div className={cn('md:text-3xl text-xl font-bold')}>Events</div>
           <div>
             <TabsWrap tab={tab} onValueChange={(value) => setTab(value as TabValues)} />
           </div>
