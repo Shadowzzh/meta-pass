@@ -30,7 +30,7 @@ const Home = () => {
         'relative flex flex-col items-center justify-center antialiased',
       )}
     >
-      <AuroraBackground className="relative md:top-0 top-[-10%] px-4 md:px-0">
+      <AuroraBackground className="h-screen w-screen relative md:top-0 top-[-10%] px-4 md:px-0">
         <h1
           className={cn(
             'relative z-10 ',
