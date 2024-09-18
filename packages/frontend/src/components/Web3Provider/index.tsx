@@ -2,14 +2,13 @@ import type { ComponentProps } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
 import { createConfig, http, WagmiProvider } from 'wagmi';
-import { hardhat, mainnet, sepolia } from 'wagmi/chains';
+import { hardhat, sepolia } from 'wagmi/chains';
 
 const config = createConfig(
   getDefaultConfig({
-    chains: [hardhat],
+    chains: [hardhat, sepolia],
     transports: {
       [hardhat.id]: http('http://127.0.0.1:8545'),
-      [mainnet.id]: http(),
       [sepolia.id]: http(),
     },
     walletConnectProjectId: 'a8d524a4a2fceccb4bbf13387a99c60c',
