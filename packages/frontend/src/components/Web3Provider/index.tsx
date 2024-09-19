@@ -1,23 +1,11 @@
 import type { ComponentProps } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
-import { createConfig, http, WagmiProvider } from 'wagmi';
-import { hardhat, sepolia } from 'wagmi/chains';
+import { createConfig, WagmiProvider } from 'wagmi';
 
-const config = createConfig(
-  getDefaultConfig({
-    chains: [hardhat, sepolia],
-    transports: {
-      [hardhat.id]: http('http://127.0.0.1:8545'),
-      [sepolia.id]: http(),
-    },
-    walletConnectProjectId: 'a8d524a4a2fceccb4bbf13387a99c60c',
-    appName: 'MetaPass',
-    appDescription: 'Your App Description',
-    appUrl: 'https://family.co', // your app's url
-    appIcon: 'https://family.co/logo.png', // your app's icon, no bigger than 1024x1024px (max. 1MB)
-  }),
-);
+import { wagmiConfig } from '@/config';
+
+const config = createConfig(getDefaultConfig(wagmiConfig));
 
 const queryClient = new QueryClient();
 
